@@ -15,7 +15,6 @@
  * @property {string} description
  * @property {string} redirectUrl
  * @property {string|null|undefined} language
- * @property {string} redirectUrl
  */
 
 /** 

@@ -15,7 +15,7 @@ Installation instructions will be here...
 ## 2. Usage
 ### 2.1 Initialize payment gateway adapter
 ```javascript
-const { PaymentGatewayAdapter } = require('@twelver313/kapital-bank');
+import { PaymentGatewayAdapter } from '@twelver313/kapital-bank';
 
 const paymentGateway = new PaymentGatewayAdapter([
   login: '<YOUR_LOGIN>',
@@ -66,7 +66,7 @@ console.log(response.pmoResultCode) // "1"
 
 ### 2.4 Get order status
 ```javascript
-const { OrderStatus } = require('@twelver313/kapital-bank');
+import { OrderStatus } from '@twelver313/kapital-bank';
 
 const orderStatus = await paymentGateway.getOrderStatus([
   id: 4595,
@@ -75,19 +75,19 @@ const orderStatus = await paymentGateway.getOrderStatus([
 const status = orderStatus.status;
 
 // Do any stuff depending on status
-if (status === OrderStatus.CANCELED) {
+if (status === OrderStatus.CANCELED) { // equivalent: orderStatus.isCanceled
   ...
 }
-if (status === OrderStatus.DECLINED) {
+if (status === OrderStatus.DECLINED) { // equivalent: orderStatus.isDeclined
   ...
 }
-if (status === OrderStatus.FULLY_PAID) {
+if (status === OrderStatus.FULLY_PAID) { // equivalent: orderStatus.isFullyPaid
   ...
 }
-if (status === OrderStatus.EXPIRED) {
+if (status === OrderStatus.EXPIRED) { // equivalent: orderStatus.isExpired
   ...
 }
-if (status === OrderStatus.REFUNDED) {
+if (status === OrderStatus.REFUNDED) { // equivalent: orderStatus.isRefunded
   ...
 }
 ```
