@@ -5,7 +5,13 @@ export type OrderConstructorOptions = {
   hppUrl: string;
 }
 
-export type OrderStatusValue = 'Declined'|'Preparing'|'FullyPaid'|'Cancelled'|'Expired'|'Refunded';
+export type OrderStatusValue =
+  |'Declined'
+  |'Preparing'
+  |'FullyPaid'
+  |'Cancelled'
+  |'Expired'
+  |'Refunded';
 
 export class Order {
   constructor(options: OrderConstructorOptions);
@@ -25,8 +31,8 @@ export class Order {
 export type OrderStatusConstructorOptions = {
   id: number;
   status: OrderStatusValue;
+  prevStatus?: OrderStatusValue;
   typeRid: TypeRid;
-  prevStatus?: TypeRid;
   lastStatusLogin: string;
   amount: number;
   currency: string;
@@ -52,24 +58,28 @@ export class OrderStatus {
   };
 
   constructor(options: OrderConstructorOptions);
-  isDeclined: () => boolean;
-  isExpired: () => boolean;
-  isCanceled: () => boolean;
-  isPreparing: () => boolean;
-  isFullyPaid: () => boolean;
-  isRefunded: () => boolean;
+  isDeclined(): boolean;
+  isExpired(): boolean;
+  isCanceled(): boolean;
+  isPreparing(): boolean;
+  isFullyPaid(): boolean;
+  isRefunded(): boolean;
+  isOneOf(statuses: OrderStatusValue): boolean;
 }
 
 type PaymentGatewayConstructorOptions = {
   login: string;
   password: string;
+  /** Flag for conducting tests in Kapital Bank's test environment */
   isDev?: boolean;
+  /** You don't need to pass this option It was added just in case Kapital Bank changes host address */
   paymentHost?: string;
 }
 
 export type CreateOrderOptions = {
   amount: number;
   description: string;
+  /** Redirect url after payment completed/failed/canceled */
   redirectUrl: string;
   currency?: string | null;
   language?: string | null;

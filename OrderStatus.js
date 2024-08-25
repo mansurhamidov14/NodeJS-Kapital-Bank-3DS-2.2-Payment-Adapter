@@ -92,6 +92,13 @@ class OrderStatus {
   isPreparing() {
     return this.status === OrderStatus.PREPARING;
   }
+
+  /**
+   * @param {Array.<OrderStatusValue>} statuses 
+   */
+  isOneOf(statuses) {
+    return statuses.includes(this.status);
+  }
 }
 
 module.exports.OrderStatus = OrderStatus;
