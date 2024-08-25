@@ -1,4 +1,4 @@
-const { stringifyUrlParams } = require('./helpers');
+const { stringify } = require('qs');
 
 class Order {
   /**
@@ -35,7 +35,11 @@ class Order {
    * @returns {string}
    */
   get url() {
-    return this.#hppUrl + stringifyUrlParams({ id: this.id, password: this.password });
+    const searchParams = {
+      id: this.id,
+      password: this.password
+    };
+    return this.#hppUrl + stringify(searchParams, { addQueryPrefix: true });
   }
 }
 

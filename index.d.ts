@@ -13,6 +13,8 @@ export type OrderStatusValue =
   |'Expired'
   |'Refunded';
 
+export type OrderType = 'Order_SMS'|'Order_DMS'|'Order_REC';
+
 export class Order {
   constructor(options: OrderConstructorOptions);
   public id: string;
@@ -32,7 +34,7 @@ export type OrderStatusConstructorOptions = {
   id: number;
   status: OrderStatusValue;
   prevStatus?: OrderStatusValue;
-  typeRid: TypeRid;
+  typeRid: OrderType;
   lastStatusLogin: string;
   amount: number;
   currency: string;
@@ -46,8 +48,8 @@ export type OrderStatusConstructorOptions = {
 export class OrderStatus {
   public id: number;
   public status: OrderStatusValue;
-  public typeRid: TypeRid;
-  public prevStatus: TypeRid;
+  public prevStatus: OrderStatusValue;
+  public typeRid: OrderType;
   public lastStatusLogin: string;
   public amount: number;
   public currency: string;
@@ -84,8 +86,6 @@ export type CreateOrderOptions = {
   currency?: string | null;
   language?: string | null;
 }
-
-export type OrderType = 'Order_SMS'|'Order_DMS'|'Order_REC';
 
 type RestoreOrderOptions = Omit<OrderConstructorOptions, 'hppUrl'>;
 
