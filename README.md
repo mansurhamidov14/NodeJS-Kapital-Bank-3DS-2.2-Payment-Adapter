@@ -15,9 +15,9 @@ Installation instructions will be here...
 ## 2. Usage
 ### 2.1 Initialize payment gateway adapter
 ```javascript
-import { PaymentGatewayAdapter } from '@twelver313/kapital-bank';
+import { PaymentGateway } from '@twelver313/kapital-bank';
 
-const paymentGateway = new PaymentGatewayAdapter([
+const paymentGateway = new PaymentGateway([
   login: '<YOUR_LOGIN>',
   password: '<YOUR_PASSWORD>',
   isDev: true, // Optional flag for using Kapital-Bank's test environment
@@ -75,19 +75,19 @@ const orderStatus = await paymentGateway.getOrderStatus([
 const status = orderStatus.status;
 
 // Do any stuff depending on status
-if (status === OrderStatus.CANCELED) { // equivalent: orderStatus.isCanceled
+if (status === OrderStatus.CANCELED) { // equivalent: orderStatus.isCanceled()
   ...
 }
-if (status === OrderStatus.DECLINED) { // equivalent: orderStatus.isDeclined
+if (status === OrderStatus.DECLINED) { // equivalent: orderStatus.isDeclined()
   ...
 }
-if (status === OrderStatus.FULLY_PAID) { // equivalent: orderStatus.isFullyPaid
+if (status === OrderStatus.FULLY_PAID) { // equivalent: orderStatus.isFullyPaid()
   ...
 }
-if (status === OrderStatus.EXPIRED) { // equivalent: orderStatus.isExpired
+if (status === OrderStatus.EXPIRED) { // equivalent: orderStatus.isExpired()
   ...
 }
-if (status === OrderStatus.REFUNDED) { // equivalent: orderStatus.isRefunded
+if (status === OrderStatus.REFUNDED) { // equivalent: orderStatus.isRefunded()
   ...
 }
 ```
@@ -102,7 +102,7 @@ const orderStatus = await paymentGateway.getOrderStatus(orderParams);
 
 /** Restoring order if it was not finished or expired */
 if (orderStatus.isPreparing()) {
-  order = orderStatus.restoreOrder(orderParams);
+  const order = orderStatus.restoreOrder(orderParams);
   console.log(order.id) // 4595
   console.log(order.password) // "8xjpd1ejxdma"
   console.log(order.url) // 'https://txpgtst.kapitalbank.az/flex?id=4595&password=8xjpd1ejxdma

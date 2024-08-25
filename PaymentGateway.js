@@ -6,12 +6,12 @@ const DEV_HOST = 'https://txpgtst.kapitalbank.az';
 const DEFAULT_CURRENCY = 'AZN';
 const DEFAULT_LANGUAGE = 'az';
 
-class PaymentGatewayAdapter {
+class PaymentGateway {
   #requestHeaders;
   #paymentHost
 
   /**
-   * @param {PaymentGatewayAdapterConstructorOptions} options
+   * @param {PaymentGatewayConstructorOptions} options
    */
   constructor(options) {
     if (!options.login) {
@@ -127,4 +127,4 @@ class PaymentGatewayAdapter {
   }
 }
 
-module.exports.PaymentGatewayAdapter = PaymentGatewayAdapter;
+module.exports.PaymentGateway = PaymentGateway;

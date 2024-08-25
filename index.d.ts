@@ -60,7 +60,7 @@ export class OrderStatus {
   isRefunded: () => boolean;
 }
 
-type PaymentGatewayAdapterConstructorOptions = {
+type PaymentGatewayConstructorOptions = {
   login: string;
   password: string;
   isDev?: boolean;
@@ -100,9 +100,8 @@ export type GetOrderStatusOptions = {
   password: string;
 }
 
-export class PaymentGatewayAdapter {
-  constructor(options: PaymentGatewayAdapterConstructorOptions);
-
+export class PaymentGateway {
+  constructor(options: PaymentGatewayConstructorOptions);
   createOrder(options: CreateOrderOptions, type: OrderType): Promise<Order>;
   createPurchaseOrder(options: CreateOrderOptions): Promise<Order>;
   createPreAuthOrder(options: CreateOrderOptions): Promise<Order>;

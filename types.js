@@ -1,7 +1,7 @@
 /** @typedef {('Order_SMS'|'Order_DMS'|'Order_REC')} TypeRid */
 
 /** 
- * @typedef {Object} PaymentGatewayAdapterConstructorOptions 
+ * @typedef {Object} PaymentGatewayConstructorOptions 
  * @property {string} login
  * @property {string} password
  * @property {boolean|undefined} isDev
