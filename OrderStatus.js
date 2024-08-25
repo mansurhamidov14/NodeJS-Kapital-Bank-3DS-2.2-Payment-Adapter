@@ -1,16 +1,3 @@
-/**
- * @property {number} id
- * @property {OrderStatusValue} status
- * @property {TypeRid} typeRid
- * @property {string} prevStatus
- * @property {string} lastStatusLogin
- * @property {string} amount
- * @property {string} currency
- * @property {string} createTime
- * @property {string} finishTime
- * @property {string} title
- * @property {string} type
- */
 class OrderStatus {
   /**
    * Order ID 

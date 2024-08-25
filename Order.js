@@ -1,4 +1,4 @@
-const { stringifyUrlParams } = require("./helpers");
+const { stringifyUrlParams } = require('./helpers');
 
 class Order {
   /**
@@ -15,7 +15,6 @@ class Order {
    * @type {string}
    */
   secret;
-
 
   static TYPE_PURCHASE = 'Order_SMS';
   static TYPE_RECURRING = 'Order_REC';
