@@ -17,9 +17,9 @@
   "author": "mansurhamidov14",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mansurhamidov14/Kapital-Bank-3DS-2.2-Payment-Adapter-NodeJS-/issues"
+    "url": "https://github.com/mansurhamidov14/NodeJS-Kapital-Bank-3DS-2.2-Payment-Adapter/issues"
   },
-  "homepage": "https://github.com/mansurhamidov14/Kapital-Bank-3DS-2.2-Payment-Adapter-NodeJS-#readme",
+  "homepage": "https://github.com/mansurhamidov14/NodeJS-Kapital-Bank-3DS-2.2-Payment-Adapter",
   "dependencies": {
     "axios": "^1.7.5",
     "qs": "^6.13.0"
