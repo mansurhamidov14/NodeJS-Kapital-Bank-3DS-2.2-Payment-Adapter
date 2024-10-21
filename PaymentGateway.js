@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { Order } = require('./Order');
 const { OrderStatus } = require('./OrderStatus');
+const { DetailedOrderStatus } = require('./DetailedOrderStatus');
 const PROD_HOST = 'https://e-commerce.kapitalbank.az';
 const DEV_HOST = 'https://txpgtst.kapitalbank.az';
 const DEFAULT_CURRENCY = 'AZN';
@@ -15,11 +16,11 @@ class PaymentGateway {
    */
   constructor(options) {
     if (!options.login) {
-      throw new Error('Missing required parameter "login" for constructor');
+      throw new Error('Missing required parameter "login" for PaymentGateway constructor');
     }
 
     if (!options.password) {
-      throw new Error('Missing required parameter "password" for constructor')
+      throw new Error('Missing required parameter "password" for PaymentGateway constructor')
     }
 
     this.#requestHeaders = {
@@ -48,6 +49,10 @@ class PaymentGateway {
         hppRedirectUrl: options.redirectUrl
       }
     };
+
+    if (options.cofCapturePurposes) {
+      body.order.hppCofCapturePurposes = options.cofCapturePurposes;
+    }
 
     const response = await axios.post(`${this.#paymentHost}/api/order`, body, {
       headers: this.#requestHeaders
@@ -112,18 +117,45 @@ class PaymentGateway {
   }
 
   /**
+   * 
+   * @param {string} id Id of order
+   * @param {Object} params Object with URL params, including password as mandatory param
+   * @returns {Promise<Object>}
+   */
+  #requestOrderStatus(id, params) {
+    return axios.get(
+      `${this.#paymentHost}/api/order/${id}`,
+      {
+        headers: this.#requestHeaders,
+        params
+      }
+    );
+  }
+
+  /**
    * @param {OrderStatusOptions} options
    * @returns {Promise<OrderStatus>}
    */
   async getOrderStatus(options) {
-    const response = await axios.get(
-      `${this.#paymentHost}/api/order/${options.id}`,
-      {
-        headers: this.#requestHeaders,
-        params: { password: options.password }
-      }
-    );
+    const response = await this.#requestOrderStatus(options.id, {
+      password: options.password,
+    });
     return new OrderStatus(response.data.order);
+  }
+
+   /**
+   * @param {OrderStatusOptions} options
+   * @returns {Promise<DetailedOrderStatus>}
+   */
+  async getDetailedOrderStatus(options) {
+    const response = await this.#requestOrderStatus(options.id, {
+      password: options.password,
+      tranDetailLevel: 2,
+      tokenDetailLevel: 2,
+      orderDetailLevel: 2
+    });
+
+    return new DetailedOrderStatus(response.data.order)
   }
 }
 

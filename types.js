@@ -9,12 +9,17 @@
 */
 
 /**
+ * @typedef {('Cit'|'PartialShipment'|'Instalment'|'Recurring'|'UnspecifiedMit'|'DelayedCharge'|string)} CofCapturePurpose
+ */
+
+/**
  * @typedef {Object} CreateOrderOptions
  * @property {number} amount
  * @property {string|null|undefined} currency
  * @property {string} description
  * @property {string} redirectUrl
  * @property {string|null|undefined} language
+ * @property {(CofCapturePurpose[] | null | undefined)} cofCapturePurposes
  */
 
 /** 
@@ -54,18 +59,4 @@
 
 /**
  * @typedef {('Declined'|'Preparing'|'FullyPaid'|'Cancelled'|'Expired'|'Refunded')} OrderStatusValue
- */
-
-/**
- * @typedef {Object} OrderStatusConstructorOptions
- * @property {number} id
- * @property {OrderStatusValue} status
- * @property {TypeRid} typeRid
- * @property {TypeRid} prevStatus
- * @property {string} lastStatusLogin
- * @property {number} amount
- * @property {string} currency
- * @property {string} createTime
- * @property {string} finishTime
- * @property {Object} type
  */

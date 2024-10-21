@@ -11,13 +11,11 @@
     "url": "git+https://github.com/mansurhamidov14/NodeJS-Kapital-Bank-3DS-2.2-Payment-Adapter.git"
   },
   "keywords": [
-    "Kapital",
-    "Bank",
-    "payment",
-    "gateway"
+    "Kapital bank",
+    "payment gateway"
   ],
   "author": "mansurhamidov14",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mansurhamidov14/Kapital-Bank-3DS-2.2-Payment-Adapter-NodeJS-/issues"
   },
