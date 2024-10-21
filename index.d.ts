@@ -135,6 +135,7 @@ export class PaymentGateway {
   restoreOrder(options: RestoreOrderOptions): Order;
   refund(options: RefundOptions): Promise<RefundResponse>;
   getOrderStatus(options: GetOrderStatusOptions): Promise<OrderStatus>;
+  getDetailedOrderStatus(options: GetOrderStatusOptions): Promise<DetailedOrderStatus>;
 }
 
 export interface DetailedOrderStatusConstructorOptions extends BaseOrderStatusConstructorOptions {
@@ -161,10 +162,10 @@ export interface DetailedOrderStatusConstructorOptions extends BaseOrderStatusCo
   srcToken: SrcToken;
   merchant: Merchant;
   initiationEnvKind: string;
-  type: DetailedOrderStatusType;
+  type: DetailedOrderType;
   hppCofCapturePurposes: CofCapturePurpose[];
   custAttrs: unknown[];
-  reportPubs: ReportPubs;
+  reportPubs: unknown;
 }
 
 export class DetailedOrderStatus extends BaseOrderStatus {
@@ -191,10 +192,10 @@ export class DetailedOrderStatus extends BaseOrderStatus {
   public srcToken: SrcToken;
   public merchant: Merchant;
   public initiationEnvKind: string;
-  public type: DetailedOrderStatusType;
+  public type: DetailedOrderType;
   public hppCofCapturePurposes: CofCapturePurpose[];
   public custAttrs: unknown[];
-  public reportPubs: ReportPubs;
+  public reportPubs: unknown;
 
   constructor(options: DetailedOrderStatusConstructorOptions);
 }
@@ -213,9 +214,7 @@ export interface BusinessAddress {
   countryN3: number;
 }
 
-export interface ReportPubs {}
-
-export interface SrcToken {
+interface SrcToken {
   id: number;
   paymentMethod: string;
   role: string;
@@ -223,18 +222,18 @@ export interface SrcToken {
   regTime: Date;
   entryMode: string;
   displayName: string;
-  owner: ReportPubs;
+  owner: unknown;
   card: Card;
 }
 
-export interface Card {
-  authentication: Authentication;
+interface Card {
+  authentication: CardAuthentication;
   expiration: string;
   brand: string;
   issuerRid: string;
 }
 
-export interface Authentication {
+interface CardAuthentication {
   needCvv2: boolean;
   needTds: boolean;
   tranId: string;
@@ -247,7 +246,7 @@ export interface Authentication {
   tdsARes: string;
 }
 
-export interface Terminal {
+interface Terminal {
   id: number;
   rid: string;
   title: string;
@@ -255,7 +254,7 @@ export interface Terminal {
   status: string;
 }
 
-export interface Tran {
+interface Tran {
   approvalCode: string;
   actionId: string;
   orderId: number;
@@ -276,7 +275,7 @@ export interface Tran {
   pmoResultCode: string;
 }
 
-export interface DetailedOrderStatusType {
+interface DetailedOrderType {
   allowVoid: boolean;
   hppTranPhase: string;
   secretLength: number;
@@ -291,7 +290,7 @@ export interface DetailedOrderStatusType {
   allowTranTypes: string[];
   allowTranPhases: string[];
   allowAuthKinds: string[];
-  allowCofStoreUsages: string[];
+  allowCofStoreUsages: CofCapturePurpose[];
   orderClass: string;
   allowCVV2: boolean;
 }

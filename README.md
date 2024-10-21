@@ -74,6 +74,11 @@ const orderStatus = await paymentGateway.getOrderStatus([
   id: 4595,
   password: '8xjpd1ejxdma'
 ]);
+// or for more detailed status
+const orderStatus = await paymentGateway.getDetailedOrderStatus([
+  id: 4595,
+  password: '8xjpd1ejxdma'
+]);
 const status = orderStatus.status;
 
 // Do any stuff depending on status
