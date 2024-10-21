@@ -10,7 +10,9 @@
     - [2.4 Get order status](#24-get-order-status)
 
 ## 1. Installation
-Installation instructions will be here...
+```bash
+npm i --save @twelver313/kapital-bank
+```
 
 ## 2. Usage
 ### 2.1 Initialize payment gateway adapter
