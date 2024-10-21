@@ -15,34 +15,28 @@ class BaseOrderStatus {
   static EXPIRED = 'Expired';
   static REFUNDED = 'Refunded';
 
-  constructor(options) {
-    Object.keys(options).forEach(key => {
-      this[key] = options[key];
-    });
-  }
-
   isDeclined() {
-    return this.status === OrderStatus.DECLINED;
+    return this.status === BaseOrderStatus.DECLINED;
   }
 
   isCanceled() {
-    return this.status === OrderStatus.CANCELED;
+    return this.status === BaseOrderStatus.CANCELED;
   }
 
   isFullyPaid() {
-    return this.status === OrderStatus.FULLY_PAID;
+    return this.status === BaseOrderStatus.FULLY_PAID;
   }
 
   isRefunded() {
-    return this.status === OrderStatus.REFUNDED;
+    return this.status === BaseOrderStatus.REFUNDED;
   }
 
   isExpired() {
-    return this.status === OrderStatus.EXPIRED;
+    return this.status === BaseOrderStatus.EXPIRED;
   }
 
   isPreparing() {
-    return this.status === OrderStatus.PREPARING;
+    return this.status === BaseOrderStatus.PREPARING;
   }
 
   isOneOf(statuses) {

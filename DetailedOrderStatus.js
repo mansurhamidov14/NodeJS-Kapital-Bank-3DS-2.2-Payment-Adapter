@@ -28,6 +28,13 @@ class DetailedOrderStatus extends BaseOrderStatus {
   hppCofCapturePurposes;
   custAttrs;
   reportPubs;
+
+  constructor() {
+    super();
+    Object.keys(options).forEach(key => {
+      this[key] = options[key];
+    });
+  }
 }
 
 module.exports.DetailedOrderStatus = DetailedOrderStatus;
