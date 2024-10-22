@@ -1,5 +1,10 @@
-### *In the Name of God, the Merciful, the Compassionate*
-_____________________________________________________
+<p align="center">
+    <a href="https://github.com/yiisoft" target="_blank">
+        <img src="[https://schoolplus.io/img/logo-new.png](https://github.com/user-attachments/assets/2471b1f7-3e2e-4c1d-a647-c07d29b18026)" height="50px">
+    </a>
+    <h1 align="center">Schoolplus Official Website</h1>
+    <br>
+</p>
 
 # Kapital Bank Payment Gateway integration library
 
