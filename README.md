@@ -1,7 +1,5 @@
 <p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://github.com/user-attachments/assets/2471b1f7-3e2e-4c1d-a647-c07d29b18026" height="100px">
-    </a>
+  <img src="https://github.com/user-attachments/assets/2471b1f7-3e2e-4c1d-a647-c07d29b18026" height="100px">
 </p>
 
 # Kapital Bank Payment Gateway integration library
