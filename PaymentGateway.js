@@ -11,6 +11,9 @@ class PaymentGateway {
   #requestHeaders;
   #paymentHost
 
+  static #ERROR_INVALID_CREDENTIALS = 'You have entered wrong merchant credentials';
+  static #ERROR_INVALID_CREDENTIALS_OR_ORDER_NOT_FOUND = 'Either you have entered incorrect merchant credentials or the order password is incorrect or the order does not exist'
+
   /**
    * @param {PaymentGatewayConstructorOptions} options
    */
@@ -33,32 +36,46 @@ class PaymentGateway {
     );
   }
 
+  #formatError(e, reason) {
+    return `KapitalBank server responded with status code ${e.status}. Error description: ${e.response.data.errorDescription}. Possible reason: ${reason}`;
+  }
+
   /**
    * @param {CreateOrderOptions} options
    * @param {TypeRid} type
    * @returns {Promise<Order>}
    */
   async createOrder(options, type) {
-    const body = {
-      order: {
-        typeRid: type,
-        amount: options.amount.toFixed(2),
-        description: options.description,
-        currency: options.currency || DEFAULT_CURRENCY,
-        language: options.language || DEFAULT_LANGUAGE,
-        hppRedirectUrl: options.redirectUrl
+    try {
+      const body = {
+        order: {
+          typeRid: type,
+          amount: options.amount.toFixed(2),
+          description: options.description,
+          currency: options.currency || DEFAULT_CURRENCY,
+          language: options.language || DEFAULT_LANGUAGE,
+          hppRedirectUrl: options.redirectUrl
+        }
+      };
+  
+      if (options.cofCapturePurposes) {
+        body.order.hppCofCapturePurposes = options.cofCapturePurposes;
       }
-    };
+  
+      const response = await axios.post(`${this.#paymentHost}/api/order`, body, {
+        headers: this.#requestHeaders
+      });
+  
+      return new Order(response.data.order);
+    } catch (e) {
+      if (e.response?.data) {
+        throw new Error(
+          this.#formatError(e, PaymentGateway.#ERROR_INVALID_CREDENTIALS)
+        );
+      }
 
-    if (options.cofCapturePurposes) {
-      body.order.hppCofCapturePurposes = options.cofCapturePurposes;
+      throw new Error(e.message);
     }
-
-    const response = await axios.post(`${this.#paymentHost}/api/order`, body, {
-      headers: this.#requestHeaders
-    });
-
-    return new Order(response.data.order);
   }
 
   /**
@@ -98,22 +115,28 @@ class PaymentGateway {
    * @returns {Promise<RefundResponse>}
    */
   async refund(options) {
-    const body = {
-      tran: {
-        phase: options.phase || 'Single',
-        amount: options.amount.toFixed(2),
-        type: 'Refund'
+    try {
+      const body = {
+        tran: {
+          phase: options.phase || 'Single',
+          amount: options.amount.toFixed(2),
+          type: 'Refund'
+        }
       }
+      const response = await axios.post(
+        `${this.#paymentHost}/api/order/${id}/exec-tran`,
+        body,
+        {
+          headers: this.#requestHeaders,
+          params: { password: options.password }
+        }
+      );
+      return response.data.tran;
+    } catch (e) {
+      throw new Error(
+        e.response?.data?.errorDescription ?? e.message
+      );
     }
-    const response = await axios.post(
-      `${this.#paymentHost}/api/order/${id}/exec-tran`,
-      body,
-      {
-        headers: this.#requestHeaders,
-        params: { password: options.password }
-      }
-    );
-    return response.data.tran;
   }
 
   /**
@@ -122,14 +145,26 @@ class PaymentGateway {
    * @param {Object} params Object with URL params, including password as mandatory param
    * @returns {Promise<Object>}
    */
-  #requestOrderStatus(id, params) {
-    return axios.get(
-      `${this.#paymentHost}/api/order/${id}`,
-      {
-        headers: this.#requestHeaders,
-        params
+  async #requestOrderStatus(id, params) {
+    try {
+      const response = await axios.get(
+        `${this.#paymentHost}/api/order/${id}`,
+        {
+          headers: this.#requestHeaders,
+          params
+        }
+      );
+
+      return response.data.order;
+    } catch (e) {
+      if (e.response?.data) {
+        throw new Error(
+          this.#formatError(e, PaymentGateway.#ERROR_INVALID_CREDENTIALS_OR_ORDER_NOT_FOUND)
+        );
       }
-    );
+
+      throw new Error(e.message);
+    }
   }
 
   /**
@@ -137,10 +172,10 @@ class PaymentGateway {
    * @returns {Promise<OrderStatus>}
    */
   async getOrderStatus(options) {
-    const response = await this.#requestOrderStatus(options.id, {
+    const order = await this.#requestOrderStatus(options.id, {
       password: options.password,
     });
-    return new OrderStatus(response.data.order);
+    return new OrderStatus(order);
   }
 
    /**
@@ -148,14 +183,14 @@ class PaymentGateway {
    * @returns {Promise<DetailedOrderStatus>}
    */
   async getDetailedOrderStatus(options) {
-    const response = await this.#requestOrderStatus(options.id, {
+    const order = await this.#requestOrderStatus(options.id, {
       password: options.password,
       tranDetailLevel: 2,
       tokenDetailLevel: 2,
       orderDetailLevel: 2
     });
 
-    return new DetailedOrderStatus(response.data.order)
+    return new DetailedOrderStatus(order)
   }
 }
 

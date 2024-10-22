@@ -1,3 +1,6 @@
+### *In the Name of God, the Merciful, the Compassionate*
+_____________________________________________________
+
 # Kapital Bank Payment Gateway integration library
 
 ## Table of Contents
