@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2471b1f7-3e2e-4c1d-a647-c07d29b18026" height="100px">
+  <img src="https://github.com/user-attachments/assets/2471b1f7-3e2e-4c1d-a647-c07d29b18026">
 </p>
 
 # Kapital Bank Payment Gateway integration library
