@@ -29,7 +29,7 @@ class DetailedOrderStatus extends BaseOrderStatus {
   custAttrs;
   reportPubs;
 
-  constructor() {
+  constructor(options) {
     super();
     Object.keys(options).forEach(key => {
       this[key] = options[key];
